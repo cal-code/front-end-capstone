@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+# Little Lemon Project
+The little lemon app is the capstone project for Meta's Front-End Developer Certificate on Coursera.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
