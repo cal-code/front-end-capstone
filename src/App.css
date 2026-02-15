@@ -124,6 +124,7 @@ button:hover {
 .call-to-action {
   display: flex;
   align-items: flex-start;
+  width: 100%;
   background-color: #495E57;
   color: white;
   padding: 2rem;

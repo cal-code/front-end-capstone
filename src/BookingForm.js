@@ -1,3 +1,5 @@
+/* global submitAPI */
+
 import { useState } from "react";
 
 function BookingForm({ availableTimes, dispatch }) {
@@ -7,27 +9,29 @@ function BookingForm({ availableTimes, dispatch }) {
         "Anniversary"
     ];
     const [formData, setFormData] = useState({
-        date: "",
+        date: new Date().toISOString().split('T')[0], // Default to today's date
         time: availableTimes[0],
         guests: 1,
         occasion: occasions[0]
     });
+    const [submitMessage, setSubmitMessage] = useState('');
 
 
     function handleDateChange(e) {
+        const selectedDate = e.target.value;
         setFormData(prev => ({
             ...prev,
-            date: e.target.value
+            date: selectedDate
         }));
+        // Dispatch the date change to update available times
+        dispatch({ type: "dateChanged", date: selectedDate });
     }
 
     function handleTimeChange(e) {
-        const newTime = e.target.value;
         setFormData(prev => ({
             ...prev,
-            time: newTime
+            time: e.target.value
         }));
-        dispatch({ type: "dateChanged", date: newTime });
     }
 
     function handleGuestsChange(e) {
@@ -44,8 +48,40 @@ function BookingForm({ availableTimes, dispatch }) {
         }));
     }
 
+    function handleSubmit(e) {
+        e.preventDefault();
+        // Submit the form data using the API
+        if (typeof submitAPI !== 'undefined') {
+            const success = submitAPI(formData);
+            if (success) {
+                setSubmitMessage('✓ Reservation submitted successfully!');
+                // Reset form after successful submission
+                setFormData({
+                    date: new Date().toISOString().split('T')[0],
+                    time: availableTimes[0],
+                    guests: 1,
+                    occasion: occasions[0]
+                });
+                // Clear message after 5 seconds
+                setTimeout(() => setSubmitMessage(''), 5000);
+            }
+        }
+    }
+
     return (
-        <form aria-label="Table reservation form">
+        <form aria-label="Table reservation form" onSubmit={handleSubmit}>
+            {submitMessage && (
+                <div style={{
+                    padding: '1rem',
+                    backgroundColor: '#495E57',
+                    color: '#F4CE14',
+                    borderRadius: '8px',
+                    marginBottom: '1rem',
+                    fontWeight: 'bold'
+                }}>
+                    {submitMessage}
+                </div>
+            )}
             <label htmlFor="res-date">Choose date</label>
             <input type="date" id="res-date" name="date" value={formData.date} onChange={handleDateChange} required aria-required="true" />
 

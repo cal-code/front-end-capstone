@@ -31,26 +31,26 @@ describe('BookingForm', () => {
         expect(screen.getByLabelText(/occasion/i)).toBeInTheDocument();
     });
 
-    test('Date input accepts user input', () => {
+    test('Date input accepts user input and dispatches action', () => {
         render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} />);
         const dateInput = screen.getByLabelText(/choose date/i);
 
         fireEvent.change(dateInput, { target: { value: '2026-02-20' } });
 
         expect(dateInput.value).toBe('2026-02-20');
+        expect(mockDispatch).toHaveBeenCalledWith({
+            type: 'dateChanged',
+            date: '2026-02-20'
+        });
     });
 
-    test('Time select accepts user input and dispatches action', () => {
+    test('Time select accepts user input', () => {
         render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} />);
         const timeSelect = screen.getByLabelText(/choose time/i);
 
         fireEvent.change(timeSelect, { target: { value: '19:00' } });
 
         expect(timeSelect.value).toBe('19:00');
-        expect(mockDispatch).toHaveBeenCalledWith({
-            type: 'dateChanged',
-            date: '19:00'
-        });
     });
 
     test('Guests input accepts valid numbers within range', () => {
@@ -118,5 +118,77 @@ describe('BookingForm', () => {
         const form = screen.getByRole('form', { name: /table reservation form/i });
 
         expect(form).toBeInTheDocument();
+    });
+
+    test('Form submission calls submitAPI with form data', () => {
+        // Mock global submitAPI
+        global.submitAPI = jest.fn(() => true);
+
+        render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} />);
+
+        const dateInput = screen.getByLabelText(/choose date/i);
+        const guestsInput = screen.getByLabelText(/number of guests/i);
+        const submitButton = screen.getByRole('button', { name: /submit reservation/i });
+
+        // Fill out form
+        fireEvent.change(dateInput, { target: { value: '2026-03-15' } });
+        fireEvent.change(guestsInput, { target: { value: '4' } });
+
+        // Submit form
+        fireEvent.click(submitButton);
+
+        // Verify submitAPI was called
+        expect(global.submitAPI).toHaveBeenCalledTimes(1);
+        expect(global.submitAPI).toHaveBeenCalledWith(
+            expect.objectContaining({
+                date: '2026-03-15',
+                guests: '4'
+            })
+        );
+
+        // Cleanup
+        delete global.submitAPI;
+    });
+
+    test('Success message appears after successful form submission', () => {
+        // Mock global submitAPI
+        global.submitAPI = jest.fn(() => true);
+
+        render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} />);
+
+        const submitButton = screen.getByRole('button', { name: /submit reservation/i });
+
+        // Submit form
+        fireEvent.click(submitButton);
+
+        // Verify success message appears
+        expect(screen.getByText(/reservation submitted successfully/i)).toBeInTheDocument();
+
+        // Cleanup
+        delete global.submitAPI;
+    });
+
+    test('Form resets after successful submission', () => {
+        // Mock global submitAPI
+        global.submitAPI = jest.fn(() => true);
+
+        render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} />);
+
+        const dateInput = screen.getByLabelText(/choose date/i);
+        const guestsInput = screen.getByLabelText(/number of guests/i);
+        const submitButton = screen.getByRole('button', { name: /submit reservation/i });
+
+        // Fill out form
+        fireEvent.change(dateInput, { target: { value: '2026-03-15' } });
+        fireEvent.change(guestsInput, { target: { value: '8' } });
+
+        // Submit form
+        fireEvent.click(submitButton);
+
+        // Verify form is reset (guests should be back to 1)
+        expect(guestsInput.value).toBe('1');
+
+        // Cleanup
+        delete global.submitAPI;
     });
 });
