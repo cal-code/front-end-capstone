@@ -69,7 +69,7 @@ function BookingForm({ availableTimes, dispatch }) {
                 ))}
             </select>
 
-            <button type="submit" aria-label="Submit reservation">Make Your reservation</button>
+            <button type="submit" aria-label="Submit reservation">Make Your Reservation</button>
         </form>
     )
 }
