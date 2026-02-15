@@ -1,12 +1,18 @@
 import BookingForm from "../BookingForm";
 
-export default function BookingPage({ availableTimes, dispatch, submitForm }) {
+export default function BookingPage({ availableTimes, dispatch, submitForm, submissionError, setSubmissionError }) {
   return (
     <>
         <div className="green-banner">
-            <h1>Little Lemon</h1>
-            <h2>Reserve a Table</h2>
+            <h2>Little Lemon</h2>
+            <h3>Reserve a Table</h3>
         </div>
+        {submissionError && (
+            <div className="error-message" role="alert">
+                <span>{submissionError}</span>
+                <button onClick={() => setSubmissionError(null)} aria-label="Close error message">x</button>
+            </div>
+        )}
         <BookingForm
             availableTimes={availableTimes}
             dispatch={dispatch}

@@ -149,4 +149,66 @@ describe('BookingForm', () => {
             })
         );
     });
+
+    // Validation Tests
+    test('Input fields have correct HTML5 attributes for validation', () => {
+        render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} />);
+        const dateInput = screen.getByLabelText(/choose date/i);
+        const guestsInput = screen.getByLabelText(/number of guests/i);
+        const timeSelect = screen.getByLabelText(/choose time/i);
+
+        const today = new Date().toISOString().split('T')[0];
+        expect(dateInput).toHaveAttribute('min', today);
+        expect(dateInput).toHaveAttribute('aria-required', 'true');
+        expect(guestsInput).toHaveAttribute('aria-required', 'true');
+        expect(timeSelect).toHaveAttribute('aria-required', 'true');
+    });
+
+    test('Inputs show aria-invalid and aria-describedby when errors occur', () => {
+        render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} submitForm={mockSubmitForm} />);
+        const submitButton = screen.getByRole('button', { name: /submit reservation/i });
+        const dateInput = screen.getByLabelText(/choose date/i);
+        const guestsInput = screen.getByLabelText(/number of guests/i);
+
+        // Trigger date error
+        fireEvent.change(dateInput, { target: { value: '' } });
+        fireEvent.click(submitButton);
+
+        expect(dateInput).toHaveAttribute('aria-invalid', 'true');
+        expect(dateInput).toHaveAttribute('aria-describedby', 'date-error');
+
+        // Trigger guests error
+        fireEvent.change(guestsInput, { target: { value: '11' } });
+        fireEvent.click(submitButton);
+
+        expect(guestsInput).toHaveAttribute('aria-invalid', 'true');
+        expect(guestsInput).toHaveAttribute('aria-describedby', 'guests-error');
+    });
+
+    test('Error messages display and clear correctly', () => {
+        render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} submitForm={mockSubmitForm} />);
+        const submitButton = screen.getByRole('button', { name: /submit reservation/i });
+        const guestsInput = screen.getByLabelText(/number of guests/i);
+
+        // Trigger guests error
+        fireEvent.change(guestsInput, { target: { value: '0' } });
+        fireEvent.click(submitButton);
+
+        // Check error message is displayed with correct class
+        const errorMessage = screen.getByText(/at least 1 guest required/i);
+        expect(errorMessage).toBeInTheDocument();
+        expect(errorMessage).toHaveClass('form-error');
+
+        // Error should clear
+        fireEvent.change(guestsInput, { target: { value: '5' } });
+        expect(screen.queryByText(/at least 1 guest required/i)).not.toBeInTheDocument();
+    });
+
+    test('Time select has required and aria-required attributes', () => {
+        render(<BookingForm availableTimes={availableTimes} dispatch={mockDispatch} />);
+        const timeSelect = screen.getByLabelText(/choose time/i);
+
+        expect(timeSelect).toBeRequired();
+        expect(timeSelect).toHaveAttribute('aria-required', 'true');
+    });
 });

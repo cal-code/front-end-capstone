@@ -74,10 +74,20 @@ nav li {
 nav a {
   color: black;
   text-decoration: none;
+  padding-bottom: 0.25rem;
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.2s ease;
 }
 
 nav a:hover {
   color: #495E57;
+  border-bottom-color: #495E57;
+}
+
+nav a.active {
+  color: #495E57;
+  border-bottom-color: #495E57;
+  font-weight: bold;
 }
 
 main {
@@ -115,10 +125,33 @@ button {
   font-size: clamp(1rem, 2vw, 1.25rem); /* Adjusted for 16pt */
   border-radius: 16px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; /* Alternative to Karla */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
 }
 
 button:hover {
-  background-color: #EDEFEE;
+  background-color: #EE9972;
+  color: white;
+  transform: translateY(-2px);
+}
+
+button:focus {
+  outline: none;
+  border: 2px solid #495E57;
+  box-shadow: 0 0 0 3px rgba(73, 94, 87, 0.1);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
 }
 
 .call-to-action {
@@ -216,11 +249,110 @@ form {
 
 input, select {
   margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #495E57;
+  box-shadow: 0 0 0 3px rgba(73, 94, 87, 0.1);
+}
+
+input[aria-invalid="true"] {
+  border-color: #721c24;
+}
+
+input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(114, 28, 36, 0.1);
 }
 
 .confirmation-message {
   margin: 1rem;
-  background-color: #EDEFEE;
+  background-color: #d4edda;
+  border: 2px solid #c3e6cb;
   padding: 2rem;
   border-radius: 16px;
+  font-weight: 500;
+}
+
+.booking-details {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #c3e6cb;
+}
+
+.booking-details h3 {
+  margin-bottom: 1rem;
+}
+
+.booking-details p {
+  margin: 0.5rem 0;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+.secondary-button {
+  background-color: #495E57;
+  color: white;
+}
+
+.secondary-button:hover {
+  background-color: #3d4844;
+  color: white;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field-error {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.form-error {
+  color: #721c24;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.error-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #f8d7da;
+  border: 2px solid #f5c6cb;
+  border-radius: 8px;
+  color: #721c24;
+  font-weight: 500;
+}
+
+.error-message button {
+  background-color: transparent;
+  color: #721c24;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.error-message button:hover {
+  opacity: 0.7;
 }
