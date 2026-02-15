@@ -1,8 +1,6 @@
-/* global submitAPI */
-
 import { useState } from "react";
 
-function BookingForm({ availableTimes, dispatch }) {
+function BookingForm({ availableTimes, dispatch, submitForm }) {
     const occasions = [
         "None",
         "Birthday",
@@ -14,8 +12,6 @@ function BookingForm({ availableTimes, dispatch }) {
         guests: 1,
         occasion: occasions[0]
     });
-    const [submitMessage, setSubmitMessage] = useState('');
-
 
     function handleDateChange(e) {
         const selectedDate = e.target.value;
@@ -51,37 +47,11 @@ function BookingForm({ availableTimes, dispatch }) {
     function handleSubmit(e) {
         e.preventDefault();
         // Submit the form data using the API
-        if (typeof submitAPI !== 'undefined') {
-            const success = submitAPI(formData);
-            if (success) {
-                setSubmitMessage('✓ Reservation submitted successfully!');
-                // Reset form after successful submission
-                setFormData({
-                    date: new Date().toISOString().split('T')[0],
-                    time: availableTimes[0],
-                    guests: 1,
-                    occasion: occasions[0]
-                });
-                // Clear message after 5 seconds
-                setTimeout(() => setSubmitMessage(''), 5000);
-            }
-        }
+        submitForm(formData);
     }
 
     return (
         <form aria-label="Table reservation form" onSubmit={handleSubmit}>
-            {submitMessage && (
-                <div style={{
-                    padding: '1rem',
-                    backgroundColor: '#495E57',
-                    color: '#F4CE14',
-                    borderRadius: '8px',
-                    marginBottom: '1rem',
-                    fontWeight: 'bold'
-                }}>
-                    {submitMessage}
-                </div>
-            )}
             <label htmlFor="res-date">Choose date</label>
             <input type="date" id="res-date" name="date" value={formData.date} onChange={handleDateChange} required aria-required="true" />
 

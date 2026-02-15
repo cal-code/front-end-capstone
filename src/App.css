@@ -217,3 +217,10 @@ form {
 input, select {
   margin-bottom: 0.5rem;
 }
+
+.confirmation-message {
+  margin: 1rem;
+  background-color: #EDEFEE;
+  padding: 2rem;
+  border-radius: 16px;
+}
