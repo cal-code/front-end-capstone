@@ -5,7 +5,9 @@ function Header() {
     return (
         <header>
             <h1>
-                <img src={Logo} alt="Little Lemon Logo" />
+                <a href="/">
+                    <img src={Logo} alt="Little Lemon Logo" />
+                </a>
             </h1>
             <Nav />
         </header>

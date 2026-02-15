@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 header {
   display: flex;
   justify-content: center;
@@ -10,6 +15,7 @@ header {
 header h1 {
   font-size: 1rem; /* Fixes gap between logo and nav */
   font-family: 'Markazi Text', serif;
+  padding: 1rem;
 }
 
 h1 {
@@ -18,17 +24,18 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(1.25rem, 2.5vw, 2.5rem); /* Adjusted for 40pt */
+  font-size: clamp(2rem, 4vw, 2.5rem); /* Adjusted for 40pt */
   font-family: 'Markazi Text', serif;
+  color: #F4CE14;
 }
 
 h3 {
-  font-size: clamp(1rem, 2vw, 2rem); /* Adjusted for 32pt */
+  font-size: clamp(1.5rem, 3vw, 2rem); /* Adjusted for 32pt */
   font-family: 'Markazi Text', serif;
 }
 
 h4 {
-  font-size: clamp(0.75rem, 1.5vw, 1.5rem); /* Adjusted for 24pt */
+  font-size: clamp(1.25rem, 2vw, 1.5rem); /* Adjusted for 24pt */
   font-family: 'Markazi Text', serif;
 }
 
@@ -53,8 +60,8 @@ nav ul {
   gap: 1.4rem;
   list-style: none;
   flex-wrap: wrap;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 1rem;
+  padding-top: 0.5rem;
 }
 
 nav li {
@@ -84,11 +91,14 @@ footer {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 p {
   font-size: clamp(1rem, 2vw, 1.25rem); /* Adjusted for 16pt */
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; /* Alternative to Karla */
+  line-height: 1.3rem;
 }
 
 span {
@@ -97,8 +107,84 @@ span {
 }
 
 button {
+  margin-top: 1rem;
+  background-color: #F4CE14;
   padding: 0.5rem 1rem;
+  font-weight: bold;
   font-size: clamp(1rem, 2vw, 1.25rem); /* Adjusted for 16pt */
   border-radius: 16px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; /* Alternative to Karla */
+}
+
+button:hover {
+  background-color: #EDEFEE;
+}
+
+.call-to-action {
+  display: flex;
+  align-items: flex-start;
+  background-color: #495E57;
+  color: white;
+  padding: 2rem;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.split-left {
+  width: 40%;
+}
+
+#restaurant-pic {
+  border-radius: 16px;
+  width: clamp(6rem, 30vw, 18rem);
+  height: clamp(8rem, 30vw, 14rem);
+  object-fit: cover;
+  margin-right: 2rem;
+  align-self: center;
+}
+
+.specials-header {
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.specials {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 2rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 16px;
+  background-color: #EDEFEE;
+  width: clamp(12rem, 30vw, 18rem);
+}
+
+.card img {
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card p {
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.card span {
+  color: #EE9972;
+  font-weight: bold;
 }
